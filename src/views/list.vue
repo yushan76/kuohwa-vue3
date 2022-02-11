@@ -58,8 +58,9 @@
                             <input
                               class="form-check-input"
                               type="checkbox"
-                              value=""
+                              value="Admin"
                               id="flexCheckDefault"
+                              v-model="checkboxArray"
                             />
                             <label
                               class="form-check-label"
@@ -72,9 +73,9 @@
                             <input
                               class="form-check-input"
                               type="checkbox"
-                              value=""
+                              value="Super User"
                               id="flexCheckChecked"
-                              checked
+                              v-model="checkboxArray"
                             />
                             <label
                               class="form-check-label"
@@ -87,9 +88,9 @@
                             <input
                               class="form-check-input"
                               type="checkbox"
-                              value=""
+                              value="General User"
                               id="flexCheckChecked"
-                              checked
+                              v-model="checkboxArray"
                             />
                             <label
                               class="form-check-label"
@@ -111,12 +112,17 @@
                             class="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
+                            v-model="account"
                           />
                         </div>
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-light btn1">
+                      <button
+                        type="button"
+                        class="btn btn-light btn1"
+                        @click="addlist()"
+                      >
                         新增
                       </button>
                     </div>
@@ -160,34 +166,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>
-                  <i class="bi bi-pencil-square"></i>
-                  &nbsp;&nbsp;
-                  <i class="bi bi-trash-fill"></i>
+              <tr v-for="item in info" :key="item">
+                <td align="center" valign="middle">{{ item.account }}</td>
+                <td align="center" valign="middle">
+                  <div v-for="role in item.role" :key="role">{{ role }}</div>
                 </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>
-                  <i class="bi bi-pencil-square"></i>
+                <!-- <td>{{item.role[0]}}<br>{{item.role[1]}}</td>  <不用迴圈>  -->
+                <td align="center" valign="middle">{{ item.time }}</td>
+                <td align="center" valign="middle">
+                  <i class="bi bi-pencil-square" @click="exid(item)"></i>
                   &nbsp;&nbsp;
-                  <i class="bi bi-trash-fill"></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>
-                  <i class="bi bi-pencil-square"></i>
-                  &nbsp;&nbsp;
-                  <i class="bi bi-trash-fill"></i>
+                  <i class="bi bi-trash-fill" @click="remove(item)"></i>
                 </td>
               </tr>
             </tbody>
@@ -199,25 +188,75 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  data () {
+  data() {
     return {
-      info: null
-    }
+      info: [],
+      checkboxArray: [],
+      account: "",
+    };
   },
-  mounted () {
-    this.axios.get(' http://localhost:3000')
-      //   .then(response =>{ this.info = response.data.data})
-      // console.log(response)
-      .then(response => console.log(response))
-  }
+  mounted() {
+    axios
+      .get("http://localhost:3000/data")
+      .then((response) => {
+        this.info = response.data;
+        console.log(this.info);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
+  methods: {
+    getnowtime() {
+      let data = new Date();
+      let year = data.getFullYear();
+      let month = data.getMonth() + 1;
+      let day = data.getDay();
+      let hour = data.getHours() + "";
+      let minute = data.getMinutes() + "";
+      let second = data.getSeconds() + "";
+      return `${year}年${month}月${day}日 ${hour.padStart(
+        2,
+        "0"
+      )}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}`;
+    },
+    addlist() {
+      this.getnowtime();
+      const obj = {
+        account: this.account,
+        role: this.checkboxArray,
+        time: this.getnowtime(),
+      };
+      this.info.push(obj);
+      this.account = "";
+      this.checkboxArray = [];
+    },
+    remove(item) {
+      const mapAccount = this.info.map(function (items) {
+        return items.account;
+      });
+      const index = mapAccount.indexOf(item.account);
+      console.log(mapAccount);
+      console.log(item.account);
+      console.log(index);
+      this.info.splice(index, 1);
+    },
+    // exid(item){
+    //   const mapAccount = this.info.map(function{
+    //     return item.account;
+    //   });
+    // },
+  },
 };
 </script>
 
 <style scoped>
 .all {
   width: 1700px;
-  height: 800px;
+  min-height: 800px;
   border-width: 1px;
   border-style: solid;
   border-color: rgb(181, 181, 181);
