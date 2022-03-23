@@ -2,7 +2,8 @@
   <div id="nav">
     <router-link to="/login">登入</router-link> |
     <router-link to="/list">人員列表</router-link> |
-    <router-link to="/file">上傳檔案</router-link>
+    <router-link to="/file">上傳檔案</router-link> | 
+    <router-link to="/erp">ERP對應管理</router-link>
   </div>
   <router-view/>
 </template>

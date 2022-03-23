@@ -3,32 +3,32 @@
         {
             "account": "account1",
             "role": [
-                "admin",
-                "super user"
+                "Admin",
+                "Super User"
             ],
             "time": "last login time1"
         },
         {
             "account": "account2",
             "role": [
-                "admin",
-                "super user"
+                "Admin",
+                "Super User"
             ],
             "time": "last login time2"
         },
         {
             "account": "account3",
             "role": [
-                "admin",
-                "super user"
+                "Admin",
+                "Super User"
             ],
             "time": "last login time3"
         },
         {
             "account": "account4",
             "role": [
-                "admin",
-                "super user"
+                "Admin",
+                "Super User"
             ],
             "time": "last login time4"
         }

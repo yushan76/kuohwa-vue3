@@ -46,10 +46,14 @@
 </template>
 
 <script>
+import 'select2'
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
+  },
+  components:{
+
   },
   data() {
     return {

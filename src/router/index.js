@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import login from '../views/login.vue'
 import list from '../views/list.vue'
 import file from '../views/file.vue'
+import erp from '../views/erp.vue'
+
 
 
 
@@ -25,6 +27,12 @@ const routes = [
     name: '上傳檔案',
     component: file
   },
+  {
+    path: '/erp',
+    name: 'ERP對應管理',
+    component: erp
+  },
+
 
   // {
   //   path: '/about',
